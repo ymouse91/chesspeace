@@ -25,7 +25,7 @@
 <style>
   :root{
     /* Väripaletti - elävämpi */
-    --bg:#f8fafd;
+    --bg:#a8aaad;
     --bg-accent:#eef2f9;
     --panel:#ffffff;
     --ink:#1a2a4a;
@@ -49,8 +49,8 @@
     --gap: 6px;
 
     /* cover tints */
-    --coverW:#e7eefc;
-    --coverB:#efe9ff;
+    --coverW:#d2e0ed; 
+    --coverB:#e2d5ee;
 
     /* anchors */
     --wbg:#ffffff;
@@ -122,7 +122,7 @@
     gap: clamp(6px, 2vmin, 16px);
     padding: 0;
     overflow: hidden;
-    background: linear-gradient(135deg, #f8fafd 0%, #f0f4fb 100%);
+    background: linear-gradient(135deg, var(--bg) 0%, var(--bg-accent) 100%);
   }
 
   #topbar{
@@ -295,7 +295,7 @@
 
   .cell{
     border: 1px solid var(--line);
-    background: #fff;
+  background: var(--panel);  /* Ei white (#fff), käytä --panel */
     position: relative;
     display: flex;
     align-items: center;
@@ -495,8 +495,8 @@
     display:flex;
     align-items:center;
     justify-content:center;
-    font-size:16px;
-    font-weight:400;
+    font-size:20px;
+    font-weight:300;
     border:1px solid #00000012;
     box-sizing:border-box;
   }
@@ -677,6 +677,12 @@ const btnNew = document.getElementById("btnNew");
 const btnHint = document.getElementById("btnHint");
 const btnLoadLocal = document.getElementById("btnLoadLocal");
 const fileSolutions = document.getElementById("fileSolutions");
+
+// Piilota jos mobile device
+const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+if(isMobile){
+  document.getElementById("btnLoadLocal").style.display = "none";
+}
 
 let selectedPieceId = null;
 
@@ -1208,8 +1214,9 @@ function pickRandomSolution(){
 function buildGivenSetForSolution(sol, level){
   const needUnique = UNIQUE_LEVELS.has(level);
 
+
   // helpoille tasoille pidetään kuninkaat mukana, muille ei pakkoa
-  const mandatory = (level==="starter" || level==="junior" || level==="expert")
+  const mandatory = (level==="starter")
     ? ["WK","BK"]
     : [];
 
@@ -1332,12 +1339,15 @@ function revealOneCorrectPiece(){
     }
     if(!ok) continue;
 
-    placeFixedFromSolution(id, solPiece, true);
-    redrawBoard();
-    renderPalette();
-    validateIfComplete();
-    elStatus.textContent = "Vihje: yksi oikea pala paljastettu (vihreällä).";
-    return;
+placeFixedFromSolution(id, solPiece, true);
+redrawBoard();
+renderPalette();
+validateIfComplete();
+
+elStatus.textContent = allPiecesPlaced() 
+  ? "✓ Kaikki palat nyt asetettu!"
+  : "Vihje: yksi oikea pala paljastettu (vihreällä).";
+return;
   }
 
   elStatus.textContent = "⚠ Vihjettä ei voi asettaa: lauta on ristiriidassa ratkaisun kanssa (poista jokin asettamasi pala).";
