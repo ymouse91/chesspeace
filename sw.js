@@ -1,7 +1,7 @@
 // Chess Peace Service Worker
 // Offline support + caching strategy
 
-const CACHE_NAME = 'chess-peace-v3';
+const CACHE_NAME = 'chess-peace-v4';
 const urlsToCache = [
   './',
   './index.html',
