@@ -641,6 +641,7 @@
       </label>
       <button id="btnNew">Uusi pulma</button>
       <button id="btnHint">Vihje +1</button>
+      <button id="btnClear">Tyhjennä</button>											  
       <button id="btnLoadLocal">Lataa solutions.json</button>
       <input type="file" id="fileSolutions" accept=".json" style="display:none">
     </div>
@@ -698,6 +699,7 @@ const elStatus = document.getElementById("status");
 const elLoadInfo = document.getElementById("loadInfo");
 const btnNew = document.getElementById("btnNew");
 const btnHint = document.getElementById("btnHint");
+const btnClear = document.getElementById("btnClear");													 
 const btnLoadLocal = document.getElementById("btnLoadLocal");
 const fileSolutions = document.getElementById("fileSolutions");
 
@@ -1383,6 +1385,32 @@ return;
   elStatus.textContent = "⚠ Vihjettä ei voi asettaa: lauta on ristiriidassa ratkaisun kanssa (poista jokin asettamasi pala).";
 }
 
+
+/* =========================
+   CLEAR USER PIECES
+========================= */
+function clearUserPieces(){
+  // Poista kaikki pelaajan asettamat palat (ei fixed/vihjepalat)
+  const instancesToRemove = [];
+  
+  for(const [instId, inst] of instances.entries()){
+    if(!inst.fixed){
+      instancesToRemove.push(instId);
+    }
+  }
+  
+  // Poista kaikki kerralla
+  for(const instId of instancesToRemove){
+    removeInstance(instId);
+  }
+  
+  // Päivitä näkymä
+  redrawBoard();
+  renderPalette();
+  validateIfComplete();
+  
+  elStatus.textContent = "Lauta tyhjennetty - aloita alusta!";
+}
 /* =========================
    INIT
 ========================= */
@@ -1391,6 +1419,7 @@ renderPalette();
 
 btnNew.addEventListener("click", startNewPuzzle);
 btnHint.addEventListener("click", revealOneCorrectPiece);
+btnClear.addEventListener("click", clearUserPieces);													
 elDiff.addEventListener("change", startNewPuzzle);
 
 if(btnLoadLocal && fileSolutions){
