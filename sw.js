@@ -1,11 +1,13 @@
 // Chess Peace Service Worker
 // Offline support + caching strategy
 
-const CACHE_NAME = 'chess-peace-v5';
+const CACHE_NAME = 'chess-peace-v6';
 const urlsToCache = [
   './',
   './index.html',
-  './manifest.webmanifest'
+  './manifest.webmanifest',
+  './solutions.json',
+    './icon192.png'
 ];
 
 // Install event – cache resurssit
