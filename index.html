@@ -49,8 +49,8 @@
     --gap: 6px;
 
     /* cover tints */
-    --coverW:#d2e0ed; 
-    --coverB:#e2d5ee;
+--coverW:#a8c6ec;
+--coverB:#cbb1e6;
 
     /* anchors */
     --wbg:#ffffff;
@@ -384,13 +384,12 @@
     }
   }
   /* right palette */
-  #rightPane{
-    flex:1;
-    display:flex;
-    flex-direction:column;
-    gap:12px;
-    min-width:360px;
-  }
+#palette{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  max-width: 400px;
+}
 
   #legend{
     background: var(--panel);
@@ -619,6 +618,15 @@
   #btnLoadLocal{
     display:none;
   }
+  
+  @media (min-width: 768px) and (max-width: 1199px) {
+
+  #main{
+    grid-template-columns: max-content max-content;
+    justify-content: center;     /* <-- keskittää vaakasuunnassa */
+  }
+
+}
   
 </style>
 </head>
